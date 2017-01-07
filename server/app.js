@@ -1,10 +1,11 @@
+
 import express from "express";
 import http from "http";
-import {server as config} from "./config/index";
+import {server as serverConfig} from './config/index';
 
 const app = express();
 const server = http.createServer(app);
 
-server.listen(config.port, function(){
-  console.log(`listening on ${config.port}`);
+server.listen(serverConfig.port, function(){
+  console.log(`listening on ${serverConfig.port}`);
 });

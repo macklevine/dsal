@@ -1,13 +1,14 @@
-import defaults from "./default.js";
-
-var config = {
-  server : {
-    port : process.env.SERVER_PORT
-  }
-};
+var server;
+var db;
 
 if(process.env.NODE_ENV==="development"||!process.env.NODE_ENV){
-  config = defaults;
+  server = {
+    port : 1337
+  };
+} else {
+  server = {
+    port : process.env.PORT
+  };
 }
 
-export default config;
+export { server };
