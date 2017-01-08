@@ -1,4 +1,7 @@
 var gulp = require('gulp');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var babel = require('gulp-babel');
 
 var javaScriptSources = [
   // 'bower_components/angular/angular.js',
@@ -15,9 +18,19 @@ var javaScriptSources = [
   // 'client/lib/js/**/*.js'
 ];
 
-gulp.task('concatAndMinifyJavascript', function() {
+gulp.task('concatJavascript', function() {
   return gulp.src(javaScriptSources)
     .pipe(concat('bundle.js'))
+    .pipe(gup.dest('./client/dist/js'));
+});
+
+gulp.task('concatAndMinifyJavascript', function() {
+  return gulp.src(javaScriptSources)
+    .pipe(babel({
+      presets : ['es2015']
+    }))
+    .pipe(concat('bundle.js'))
+    .pipe(uglify())
     .pipe(gulp.dest('./client/dist/js'));
 });
 
@@ -27,3 +40,5 @@ gulp.task('moveTemplates', function() {
   ])
   .pipe(gulp.dest('./client/dist/html'));
 });
+
+gulp.task('default', ['concatAndMinifyJavascript', 'moveTemplates']);

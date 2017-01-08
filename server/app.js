@@ -8,7 +8,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/', express.static(__dirname + '/../client'));
+app.use('/', express.static(__dirname + '/../client/dist'));
 
 
 const server = http.createServer(app);
