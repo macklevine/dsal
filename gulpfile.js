@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var babel = require('gulp-babel');
+var less = require('gulp-less');
+var concatCss = require('gulp-concat-css');
 
 var javaScriptSources = [
   // 'bower_components/angular/angular.js',
@@ -16,6 +18,10 @@ var javaScriptSources = [
   // 'bower_components/ng-csv/build/ng-csv.js',
   // 'bower_components/ngstorage/ngStorage.js',
   // 'client/lib/js/**/*.js'
+];
+
+var cssSources = [
+  './client/less/*.less'
 ];
 
 gulp.task('concatJavascript', function() {
@@ -34,6 +40,15 @@ gulp.task('concatAndMinifyJavascript', function() {
     .pipe(gulp.dest('./client/dist/js'));
 });
 
+gulp.task('compileLessAndConcatCSS', function(){
+  return gulp.src(cssSources)
+    .pipe(less())
+    .pipe(concatCss("styles.css", {
+      rebaseUrls : false
+    }))
+    .pipe(gulp.dest('./client/dist/css'));
+});
+
 gulp.task('moveTemplates', function() {
   return gulp.src([
     './client/html/*.html'
@@ -41,4 +56,4 @@ gulp.task('moveTemplates', function() {
   .pipe(gulp.dest('./client/dist/html'));
 });
 
-gulp.task('default', ['concatAndMinifyJavascript', 'moveTemplates']);
+gulp.task('default', ['concatAndMinifyJavascript', 'moveTemplates', 'compileLessAndConcatCSS']);
